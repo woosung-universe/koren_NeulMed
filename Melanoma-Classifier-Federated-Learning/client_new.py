@@ -48,64 +48,6 @@ def train_feature_eng(df):
     
     return df
 
-
-# def build_lrfn(lr_start=0.00001, lr_max=0.0001, 
-#                lr_min=0.000001, lr_rampup_epochs=20, 
-#                lr_sustain_epochs=0, lr_exp_decay=.8):
-#     lr_max = lr_max * strategy.num_replicas_in_sync
-
-#     def lrfn(epoch):
-#         if epoch < lr_rampup_epochs:
-#             lr = (lr_max - lr_start) / lr_rampup_epochs * epoch + lr_start
-#         elif epoch < lr_rampup_epochs + lr_sustain_epochs:
-#             lr = lr_max
-#         else:
-#             lr = (lr_max - lr_min) * lr_exp_decay**(epoch - lr_rampup_epochs - lr_sustain_epochs) + lr_min
-#         return lr
-    
-#     return lrfn
-
-# def test_feature_eng(df):
-#     df['path'] = './isicdata/test/test/' + df['image_name'] + '.jpg'
-#     df['anatom_site_general_challenge'] = df['anatom_site_general_challenge'].fillna('torso')
-#     df['sex'] = df['sex'].fillna('male')
-#     df['age_approx'] = df['age_approx'].fillna(df['age_approx'].mean())
-    
-#     return df
-
-
-# Model Implemention
-
-# def load_model(weights='imagenet', metrics=['accuracy']):    
-
-#     # Define the model as efficientnet-b2
-#     model = tf.keras.applications.efficientnet.EfficientNetB2(
-#         include_top=False,
-#         weights=weights,
-#         input_shape=(224, 224, 3),
-#         pooling='avg',
-#         classes=2,
-#         classifier_activation='softmax'
-#     )
-
-#     # Compile the model
-#     model.compile(
-#         optimizer=tf.keras.optimizers.Adam(lr=0.0001),
-#         loss='sparse_categorical_crossentropy',
-#         metrics=metrics
-#     )
-    
-#     return model
-
-# def get_latest_weights(path='./workspace/checkpoints/*'):
-#     # get the latest model weights from the path
-#     list_of_files = glob.glob(path)
-#     return max(list_of_files, key=os.path.getctime)
-
-
-# model = load_model(weights=get_latest_weights())
-
-
 def focal_loss(gamma=2., alpha=.25):
 	def focal_loss_fixed(y_true, y_pred):
 		pt_1 = tf.where(tf.equal(y_true, 1), y_pred, tf.ones_like(y_pred))
@@ -231,9 +173,9 @@ def main() -> None:
     client = FlowerClient(model, train_dataset, test_dataset, batch_size, slice_num)
 
     fl.client.start_numpy_client(
-        server_address="[::]:8080",
-        client=client,
-    )
+    server_address="192.168.0.5:8080",  # 서버 머신의 실제 IP 주소
+    client=client,
+)
 
 
 if __name__ == "__main__":

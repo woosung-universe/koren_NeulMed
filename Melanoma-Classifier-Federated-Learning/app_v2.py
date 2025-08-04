@@ -108,41 +108,6 @@ elif selected_page == "Data Exploration":
     st.subheader("Data Exploration")
     st.write("Here you can see your the specification of the data")
 
-
-    # st.subheader("Melanoma case")
-
-    # image1 = Image.open("isicdata/train/train/ISIC_0351666.jpg")
-    # image2 = Image.open("isicdata/train/train/ISIC_0369831.jpg")
-    # image3 = Image.open("isicdata/train/train/ISIC_0489267.jpg")
-
-
-    # col1, col2, col3  = st.columns([2,2,2])
-
-    # with col1:
-    #     st.image(image1, width=230, use_column_width='never', caption='head/neck')
-    # with col2:
-    #     st.image(image2, width=230, use_column_width='never', caption='upper extremity')
-    # with col3:
-    #     st.image(image3, width=230, use_column_width='never', caption='lower extremity')
-
-
-    # st.subheader("Non-melanoma case")
-
-    # image1 = Image.open("isicdata/train/train/ISIC_2637011.jpg")
-    # image2 = Image.open("isicdata/train/train/ISIC_0015719.jpg")
-    # image3 = Image.open("isicdata/train/train/ISIC_0052212.jpg")
-
-
-    # col1, col2, col3  = st.columns([2,2,2])
-
-    # with col1:
-    #     st.image(image1, width=230, use_column_width='never', caption='head/neck')
-    # with col2:
-    #     st.image(image2, width=230, use_column_width='never', caption='upper extremity')
-    # with col3:
-    #     st.image(image3, width=230, use_column_width='never', caption='lower extremity')
-
-    # df = pd.read_csv('isicdata/train_concat.csv')
     uploaded_file = st.file_uploader("Choose a file")
     if uploaded_file is not None:
         df = pd.read_csv(uploaded_file)
@@ -212,12 +177,6 @@ elif selected_page == "Data Exploration":
 
         ax1.set_title('Gender Distribution')
 
-        # ax1.set_xticks(range(2))
-
-        # ax1.set_xticklabels(['male', 'female'])
-        # ax1.set(xticks=range(len(df)), xticklabels=['male', 'female'])
-
-
         chart = sns.countplot(
             data=df,
             x='sex',
@@ -226,12 +185,6 @@ elif selected_page == "Data Exploration":
             alpha=0.9
         )
 
-        # chart = sns.countplot(df.sex.sort_values(ignore_index=True),
-        #             alpha=0.9,
-        #             ax=ax1,
-        #             color='#fdc029',
-        #             x='sex'
-        #             )
         chart.set_xticklabels(chart.get_xticklabels(), rotation=45)
 
         ax1.legend()
@@ -241,14 +194,6 @@ elif selected_page == "Data Exploration":
         ax2 = fig.add_subplot(grid[0, 2:])
 
     
-        # Plot the countplot.
-
-        # sns.countplot(df.location,
-        #             alpha=0.9,
-        #             ax=ax2,
-        #             color='#fdc029',
-        #             order=df['location'].value_counts().index)
-        # ax2.set_title('Anatom Site Distribution')
         sns.countplot(
             data=df,
             x='location',
@@ -275,44 +220,9 @@ elif selected_page == "Data Exploration":
 
         ax3.legend()
 
-#         ax4 = fig.add_subplot(grid[1, :])
-
-# # Set the title.
-
-#         ax4.set_title('Age Distribution by Gender')
-#         df_age1 = df.dropna()
-#         # Plot
-
-#         sns.distplot(df_age1[df_age1.sex == 'female'].age,
-#                     ax=ax3,
-#                     label='Female',
-#                     color='#fdc029')
-#         sns.distplot(df_age1[df_age1.sex == 'male'].age,
-#                     ax=ax3,
-#                     label='Male',
-#                     color='#171820')
-#         ax4.legend()
 
 
         st.plotly_chart(fig, use_container_width=True)
-
-        # st.plotly_chart(fig)
-
-        # cntstr = df.location.value_counts().rename_axis('location').reset_index(
-        # name='count')
-
-        # fig = px.treemap(cntstr,
-        #             path=['location'],
-        #             values='count',
-        #             color='count',
-        #             color_continuous_scale = orange_black,
-        #             title='Scans by Location')
-
-        # fig.update_traces(textinfo='label+percent entry')
-        # st.plotly_chart(fig, use_container_width=True)
-
-
-        # Creating a customized chart and giving in figsize etc.
       
 
         fig = plt.figure(constrained_layout=True, figsize=(10, 4))
@@ -374,31 +284,6 @@ elif selected_page == "Data Exploration":
         # plt.show()
         st.plotly_chart(fig, use_container_width=True)
 
-
-  
-        # fig = px.pie(diag,
-        #             values='diagnosis',
-        #             names=diag.index,
-        #             color_discrete_sequence=orange_black,
-        #             hole=.4,
-        #             title='Diognosis')
-        # fig.update_traces(textinfo='percent+label', pull=0.05)
-
-        # st.plotly_chart(fig, use_container_width=True)
-
-
-        # st.write("Sunburst Chart Benign/Malignant > Sex > Location")
-        # df1 = df.dropna()
-        # fig = px.sunburst(df1, 
-        #                 path=['benign_malignant', 'sex', 'location'],
-        #                 color='sex',
-        #                 color_discrete_sequence=orange_black,
-        #                 maxdepth=-1,
-        #                 title='Sunburst Chart Benign/Malignant > Sex > Location')
-
-        # fig.update_traces(textinfo='label+percent parent')
-        # fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
-        # st.plotly_chart(fig, use_container_width=True)
 elif selected_page == "Training":
 
     test_df = st.file_uploader("Choose a file", key='diagnosis')

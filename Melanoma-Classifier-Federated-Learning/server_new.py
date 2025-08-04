@@ -58,27 +58,6 @@ model.load_weights('./melamodel/melamodel_weights072.h5')
 
 
 class SaveModelStrategy(fl.server.strategy.FedAvg):
-    # def initialize_parameters(
-    #     self, client_manager: ClientManager
-    # ) -> Optional[Parameters]:
-    #     """Initialize global model parameters."""
-    #     # initial_parameters = self.initial_parameters
-    #     # self.initial_parameters = None  # Don't keep initial parameters in memory
-    #     initial_parameters = model.get_weights()
-    #     return initial_parameters
-
-    # def get_on_fit_config_fn() -> Callable[[int], Dict[str, str]]:
-    #     """Return a function which returns training configurations."""
-
-    #     def fit_config(server_round: int) -> Dict[str, str]:
-    #         """Return a configuration with static batch size and (local) epochs."""
-    #         config = {
-    #             "learning_rate": str(0.00001),
-    #             "batch_size": str(8),
-    #         }
-    #         return config
-
-    #     return fit_config
 
     def aggregate_fit(
         self,
@@ -119,4 +98,9 @@ strategy = SaveModelStrategy(
     # fraction_fit=0.01,
     initial_parameters=fl.common.weights_to_parameters(model.get_weights())
 )
-fl.server.start_server(strategy=strategy, config={"num_rounds": 1})
+
+fl.server.start_server(
+    server_address="0.0.0.0:8080",  # 모든 네트워크에서 접근 허용
+    strategy=strategy,
+    config={"num_rounds": 1}
+)
