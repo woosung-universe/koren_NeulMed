@@ -3,7 +3,8 @@ from typing import Dict, Optional, Tuple, List, Union
 from pathlib import Path
 
 from grpc import server
-
+from flwr.server import ServerConfig
+from flwr.common.parameter import ndarrays_to_parameters
 import flwr as fl
 import tensorflow as tf
 from flwr.server.client_proxy import ClientProxy
@@ -13,7 +14,6 @@ from flwr.common import (
     FitRes,
     Parameters,
     Scalar,
-    Weights,
 )
 # from typing import Callable
 import numpy as np
@@ -64,7 +64,7 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
         server_round: int,
         results: List[Tuple[fl.server.client_proxy.ClientProxy, fl.common.FitRes]],
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
-    ) -> Optional[fl.common.Weights]:
+    ):
         if not results:
             return None
 
@@ -93,14 +93,13 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
         return aggregated_weights
 
 
-# Create strategy and run server
 strategy = SaveModelStrategy(
-    # fraction_fit=0.01,
-    initial_parameters=fl.common.weights_to_parameters(model.get_weights())
+    initial_parameters=ndarrays_to_parameters(model.get_weights())
 )
 
+
 fl.server.start_server(
-    server_address="0.0.0.0:8080",  # 모든 네트워크에서 접근 허용
+    server_address="0.0.0.0:8080",
     strategy=strategy,
-    config={"num_rounds": 1}
+    config=ServerConfig(num_rounds=1)
 )

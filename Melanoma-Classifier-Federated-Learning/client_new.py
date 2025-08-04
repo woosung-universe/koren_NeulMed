@@ -173,7 +173,7 @@ def main() -> None:
     client = FlowerClient(model, train_dataset, test_dataset, batch_size, slice_num)
 
     fl.client.start_numpy_client(
-    server_address="192.168.0.5:8080",  # 서버 머신의 실제 IP 주소
+    server_address="127.0.0.1:8080",  # 서버 머신의 실제 IP 주소
     client=client,
 )
 

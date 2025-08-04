@@ -1,4 +1,4 @@
-bsl-py==2.3.1
+absl-py==2.3.1
 altair==5.4.1
 annotated-types==0.7.0
 anyio==4.5.2
@@ -7,14 +7,18 @@ attrs==25.3.0
 blinker==1.8.2
 cachetools==5.5.2
 certifi==2025.8.3
+cffi==1.17.1
 charset-normalizer==3.4.2
 click==8.1.8
+colorama==0.4.6
 contourpy==1.1.1
+cryptography==42.0.8
 cycler==0.12.1
 efficientnet==1.1.1
 exceptiongroup==1.3.0
 fastapi==0.116.1
 flatbuffers==25.2.10
+flwr==1.11.1
 fonttools==4.57.0
 gast==0.4.0
 gitdb==4.0.12
@@ -29,6 +33,7 @@ idna==3.10
 imageio==2.35.1
 importlib_metadata==8.5.0
 importlib_resources==6.4.5
+iterators==0.0.2
 Jinja2==3.1.6
 jsonschema==4.23.0
 jsonschema-specifications==2023.12.1
@@ -49,6 +54,7 @@ oauthlib==3.3.1
 opt_einsum==3.4.0
 packaging==24.2
 pandas==2.0.3
+pathspec==0.12.1
 pillow==10.4.0
 pkgutil_resolve_name==1.3.10
 plotly==6.2.0
@@ -56,6 +62,8 @@ protobuf==4.25.8
 pyarrow==17.0.0
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
+pycparser==2.22
+pycryptodome==3.23.0
 pydantic==2.10.6
 pydantic_core==2.27.2
 pydeck==0.9.1
@@ -74,6 +82,7 @@ rsa==4.9.1
 scikit-image==0.21.0
 scipy==1.10.1
 seaborn==0.13.2
+shellingham==1.5.4
 six==1.17.0
 smmap==5.0.2
 sniffio==1.3.1
@@ -88,7 +97,11 @@ tensorflow-macos==2.13.0
 termcolor==2.4.0
 tifffile==2023.7.10
 toml==0.10.2
+tomli==2.2.1
+tomli_w==1.0.0
 tornado==6.4.2
+tqdm==4.67.1
+typer==0.9.4
 typing_extensions==4.13.2
 tzdata==2025.2
 urllib3==2.2.3
