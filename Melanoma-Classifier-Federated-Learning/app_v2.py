@@ -38,7 +38,7 @@ page_names_to_funcs = {
     "Training": page3,
 }
 
-st.sidebar.image("logo.jpeg", use_column_width=True)
+st.sidebar.image("logo.jpeg", use_container_width=True)
 st.sidebar.title("Skin Cancer Detection through Neural Network on Federated Learning")
 
 selected_page = st.sidebar.selectbox("Select a page", page_names_to_funcs.keys())

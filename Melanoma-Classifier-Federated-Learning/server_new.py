@@ -1,10 +1,10 @@
 
 from typing import Dict, Optional, Tuple, List, Union
 from pathlib import Path
+from flwr.server import ServerConfig  # 추가
 
 from grpc import server
-from flwr.server import ServerConfig
-from flwr.common.parameter import ndarrays_to_parameters
+
 import flwr as fl
 import tensorflow as tf
 from flwr.server.client_proxy import ClientProxy
@@ -58,13 +58,34 @@ model.load_weights('./melamodel/melamodel_weights072.h5')
 
 
 class SaveModelStrategy(fl.server.strategy.FedAvg):
+    # def initialize_parameters(
+    #     self, client_manager: ClientManager
+    # ) -> Optional[Parameters]:
+    #     """Initialize global model parameters."""
+    #     # initial_parameters = self.initial_parameters
+    #     # self.initial_parameters = None  # Don't keep initial parameters in memory
+    #     initial_parameters = model.get_weights()
+    #     return initial_parameters
+
+    # def get_on_fit_config_fn() -> Callable[[int], Dict[str, str]]:
+    #     """Return a function which returns training configurations."""
+
+    #     def fit_config(server_round: int) -> Dict[str, str]:
+    #         """Return a configuration with static batch size and (local) epochs."""
+    #         config = {
+    #             "learning_rate": str(0.00001),
+    #             "batch_size": str(8),
+    #         }
+    #         return config
+
+    #     return fit_config
 
     def aggregate_fit(
         self,
         server_round: int,
         results: List[Tuple[fl.server.client_proxy.ClientProxy, fl.common.FitRes]],
         failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
-    ):
+    ) -> Optional[Tuple[Parameters, Dict[str, Scalar]]]:
         if not results:
             return None
 
@@ -82,7 +103,7 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
         aggregated_weights = super().aggregate_fit(server_round, results, failures)   
         aggregated_params, _ = aggregated_weights
         if aggregated_params is not None:
-            aggregated_weights_h : List[np.ndarray] = fl.common.parameters_to_weights(aggregated_params)
+            aggregated_weights_h : List[np.ndarray] = fl.common.parameters_to_ndarrays(aggregated_params)
             # modell = tf.keras.models.clone_model(model)
             model.set_weights(aggregated_weights_h)
             print(f'Federated Learning session completed! The accuracy of the aggregated model is {accuracy_agg2}')
@@ -93,13 +114,10 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
         return aggregated_weights
 
 
+# Create strategy and run server
 strategy = SaveModelStrategy(
-    initial_parameters=ndarrays_to_parameters(model.get_weights())
+    # fraction_fit=0.01,
+    initial_parameters=fl.common.ndarrays_to_parameters(model.get_weights())
 )
-
-
-fl.server.start_server(
-    server_address="0.0.0.0:8080",
-    strategy=strategy,
-    config=ServerConfig(num_rounds=1)
-)
+config = ServerConfig(num_rounds=1)   # 변경
+fl.server.start_server(strategy=strategy, config=config)  # 변경
