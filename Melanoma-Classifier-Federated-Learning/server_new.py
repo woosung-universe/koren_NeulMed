@@ -20,9 +20,17 @@ import numpy as np
 from datetime import datetime
 import os
 from tensorflow.keras import layers as L
-# from tensorflow.keras.applications.efficientnet import EfficientNetB2 as efn
 import efficientnet.tfkeras as efn
 
+
+def fit_config(server_round: int) -> Dict[str, int]:
+    """Return local training configuration for clients each round.
+
+    기존 기본값(1 epoch) 대신 local_epochs를 늘려 연합학습 효과를 강화합니다.
+    """
+    # 기존: 서버에서 config를 전달하지 않아 클라이언트 기본 1 epoch 사용
+    # return {}
+    return {"local_epochs": 3}
 
 def load_model():
     IMAGE_SIZE = [384, 384]
@@ -30,19 +38,19 @@ def load_model():
     model = tf.keras.Sequential([
         efn.EfficientNetB2(
             input_shape=(*IMAGE_SIZE, 3),
-            weights='imagenet',
+            weights=None,
             include_top=False
         ),
-        L.GlobalAveragePooling2D(),
-        L.Dense(1024, activation = 'relu'), 
-        L.Dropout(0.3), 
-        L.Dense(512, activation= 'relu'), 
-        L.Dropout(0.2), 
-        L.Dense(256, activation='relu'), 
-        L.Dropout(0.2), 
-        L.Dense(128, activation='relu'), 
-        L.Dropout(0.1), 
-        L.Dense(1, activation='sigmoid')
+        L.GlobalAveragePooling2D(name='global_average_pooling2d'),
+        L.Dense(1024, activation='relu', name='dense'), 
+        L.Dropout(0.3, name='dropout'), 
+        L.Dense(512, activation='relu', name='dense_1'), 
+        L.Dropout(0.2, name='dropout_1'), 
+        L.Dense(256, activation='relu', name='dense_2'), 
+        L.Dropout(0.2, name='dropout_2'), 
+        L.Dense(128, activation='relu', name='dense_3'), 
+        L.Dropout(0.1, name='dropout_3'), 
+        L.Dense(1, activation='sigmoid', name='dense_4')
     ])
 
     model.compile(
@@ -54,7 +62,25 @@ def load_model():
     return model
 
 model = load_model()
-model.load_weights('./melamodel/melamodel_weights072.h5')
+
+# 안전한 가중치 로드: 여러 후보 파일 시도
+def _try_load_weights(m):
+    candidates = [
+        './melamodel/melamodel_weights072.h5',
+        './melamodel/melamodel_weights072.weights.h5',
+    ]
+    for p in candidates:
+        if os.path.exists(p):
+            try:
+                m.load_weights(p)
+                print(f"Loaded weights: {p}")
+                return True
+            except Exception as e:
+                print(f"Failed to load {p}: {e}")
+    print("Proceeding without pre-trained weights (random init).")
+    return False
+
+_ = _try_load_weights(model)
 
 
 class SaveModelStrategy(fl.server.strategy.FedAvg):
@@ -109,15 +135,30 @@ class SaveModelStrategy(fl.server.strategy.FedAvg):
             print(f'Federated Learning session completed! The accuracy of the aggregated model is {accuracy_agg2}')
             print(f"Saving round {server_round} model weights...")
             date = datetime.now().strftime("%Y_%m_%d-%H_%M_%S")
-            model.save_weights(f"./workspace/clientResults/round-{server_round}-weights-{date}.h5")
+            # 기존 저장 경로/확장자 (Keras 3에서는 .weights.h5로 저장 필요)
+            # model.save_weights(f"./workspace/clientResults/round-{server_round}-weights-{date}.h5")
+            os.makedirs("./workspace/clientResults", exist_ok=True)  # 저장 폴더 보장
+            model.save_weights(f"./workspace/clientResults/round-{server_round}-weights-{date}.weights.h5")
 
         return aggregated_weights
 
 
 # Create strategy and run server
 strategy = SaveModelStrategy(
-    # fraction_fit=0.01,
+    # 단일 클라이언트도 즉시 학습 시작되도록 최소 요구치 설정
+    fraction_fit=1.0,
+    fraction_evaluate=1.0,
+    min_fit_clients=1,
+    min_evaluate_clients=1,
+    min_available_clients=1,
     initial_parameters=fl.common.ndarrays_to_parameters(model.get_weights())
 )
-config = ServerConfig(num_rounds=1)   # 변경
-fl.server.start_server(strategy=strategy, config=config)  # 변경
+
+# on_fit_config_fn으로 클라이언트에 local_epochs 전달
+strategy.on_fit_config_fn = fit_config  # 기존: None (클라이언트 기본 1 epoch)
+
+# 연합 라운드 수 증가 (기존 1)
+config = ServerConfig(num_rounds=10)
+
+# Windows 환경 호환을 위해 IPv4로 바인딩
+fl.server.start_server(server_address="0.0.0.0:8080", strategy=strategy, config=config)

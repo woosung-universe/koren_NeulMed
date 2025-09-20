@@ -1,0 +1,28 @@
+{
+  "base_model": {
+    "train_loss": 1.3091926574707031,
+    "train_accuracy": 0.6695048213005066,
+    "train_bce": 1.3091926574707031,
+    "test_loss": null,
+    "test_accuracy": null,
+    "model_architecture": "EfficientNetB2",
+    "image_size": [
+      384,
+      384
+    ],
+    "batch_size": 8,
+    "epochs": 1,
+    "class_weights": {
+      "0": 1.0,
+      "1": 55.0
+    }
+  },
+  "training_history": {
+    "loss": [
+      1.3091926574707031
+    ],
+    "accuracy": [
+      0.6695048213005066
+    ]
+  }
+}

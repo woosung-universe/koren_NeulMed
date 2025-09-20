@@ -39,7 +39,26 @@ def train_feature_eng(df: pd.DataFrame) -> pd.DataFrame:
         # CSV가 image_name 기준일 때 기본 경로 구성
         if "image_name" not in df.columns:
             raise ValueError("CSV must contain either 'path' or 'image_name' column.")
-        df["path"] = "./isicdata/datasets/train/" + df["image_name"] + ".jpg"
+        # 실제 존재하는 훈련 이미지 디렉토리 자동 탐색
+        possible_train_dirs = [
+            "./isicdata/train/",
+            "./isicdata/train/train/",
+            "./isicdata/images/train/",
+            "./isicdata/datasets/train/",
+        ]
+        base_dir = None
+        for d in possible_train_dirs:
+            if tf.io.gfile.exists(d):
+                try:
+                    if tf.io.gfile.glob(os.path.join(d, "*.jpg")):
+                        base_dir = d
+                        break
+                except Exception:
+                    pass
+        if base_dir is None:
+            logging.warning("Could not auto-detect train image directory. Falling back to ./isicdata/train/")
+            base_dir = "./isicdata/train/"
+        df["path"] = df["image_name"].apply(lambda n: os.path.join(base_dir, f"{n}.jpg"))
 
     # 누락 컬럼 대비
     if "anatom_site_general_challenge" in df.columns:
@@ -71,7 +90,7 @@ def load_model():
     with strategy.scope():
         model = tf.keras.Sequential(
             [
-                efn.EfficientNetB2(input_shape=(*IMAGE_SIZE, 3), weights="imagenet", include_top=False),
+                efn.EfficientNetB2(input_shape=(*IMAGE_SIZE, 3), weights=None, include_top=False),
                 L.GlobalAveragePooling2D(),
                 L.Dense(1024, activation="relu"),
                 L.Dropout(0.3),
@@ -90,6 +109,18 @@ def load_model():
             loss=focal_loss(gamma=2.0, alpha=0.25),
             metrics=["binary_crossentropy", "accuracy"],
         )
+        # 로컬 가중치가 있으면 우선 시도 로드
+        for p in [
+            "./melamodel/melamodel_weights072.h5",
+            "./melamodel/melamodel_weights072.weights.h5",
+        ]:
+            if os.path.exists(p):
+                try:
+                    model.load_weights(p)
+                    logging.info(f"Loaded local weights: {p}")
+                    break
+                except Exception as e:
+                    logging.warning(f"Failed to load {p}: {e}")
     logging.info("Model compiled")
     return model
 
@@ -103,7 +134,7 @@ def _decode_resize(path, label, img_size=(384, 384)):
     img = tf.image.resize(img, img_size, antialias=True)
     return img, label
 
-def prepare_train_df(df, mela_count=40, benign_count=8, train_ratio=0.8, batch_size=8):
+def prepare_train_df(df, mela_count=None, benign_count=None, train_ratio=0.8, batch_size=8):
     df = train_feature_eng(df)
 
     # 실제 존재하는 파일만 사용
@@ -115,10 +146,22 @@ def prepare_train_df(df, mela_count=40, benign_count=8, train_ratio=0.8, batch_s
     if df.empty:
         raise ValueError("No valid image files found from 'path' column.")
 
-    # 클래스별 샘플링
-    df_mela = df[df["target"] == 1].sample(frac=1, random_state=42)[: min(mela_count, (df["target"] == 1).sum())]
-    df_ben  = df[df["target"] == 0].sample(frac=1, random_state=42)[: min(benign_count, (df["target"] == 0).sum())]
-    df2 = pd.concat([df_mela, df_ben], ignore_index=True).sample(frac=1, random_state=42)
+    # 클래스별 샘플링 (기존 코드 보존)
+    # df_mela = df[df["target"] == 1].sample(frac=1, random_state=42)[: min(mela_count, (df["target"] == 1).sum())]
+    # df_ben  = df[df["target"] == 0].sample(frac=1, random_state=42)[: min(benign_count, (df["target"] == 0).sum())]
+    # df2 = pd.concat([df_mela, df_ben], ignore_index=True).sample(frac=1, random_state=42)
+
+    # 변경: 기본은 전체 데이터 사용. mela_count/benign_count가 지정되면 샘플링
+    if mela_count is None and benign_count is None:
+        df2 = df.sample(frac=1, random_state=42).reset_index(drop=True)
+    else:
+        _m = (df["target"] == 1).sum()
+        _b = (df["target"] == 0).sum()
+        m_lim = _m if mela_count is None else min(mela_count, _m)
+        b_lim = _b if benign_count is None else min(benign_count, _b)
+        df_mela = df[df["target"] == 1].sample(n=m_lim, random_state=42)
+        df_ben  = df[df["target"] == 0].sample(n=b_lim, random_state=42)
+        df2 = pd.concat([df_mela, df_ben], ignore_index=True).sample(frac=1, random_state=42)
 
     # train/valid split
     slice_num = int(len(df2) * float(train_ratio))
@@ -162,7 +205,8 @@ class FlowerClient(fl.client.NumPyClient):
 
     def fit(self, parameters, config=None):
         self.model.set_weights(parameters)
-        epochs = int(config.get("local_epochs", 1)) if config else 1
+        # 기존 기본값 1epoch → 서버 on_fit_config에서 전달(없으면 3으로 기본)
+        epochs = int(config.get("local_epochs", 3)) if config else 3
         hist = self.model.fit(
             self.train_dataset,
             epochs=epochs,
@@ -189,15 +233,21 @@ def main():
     logging.info(f"Loading dataset from {args.path}")
     df = pd.read_csv(args.path)
 
+    # 기존: 극단적 샘플링 값 사용
+    # train_ds, valid_ds, batch_size, slice_num, n_train, n_valid = prepare_train_df(
+    #     df, mela_count=6, benign_count=43, train_ratio=0.8, batch_size=8
+    # )
+    # 변경: 기본 전체 데이터 사용 (필요하면 --mela_count/--benign_count로 제한)
     train_ds, valid_ds, batch_size, slice_num, n_train, n_valid = prepare_train_df(
-        df, mela_count=6, benign_count=43, train_ratio=0.8, batch_size=8
+        df, mela_count=None, benign_count=None, train_ratio=0.8, batch_size=8
     )
 
     model = load_model()
     client = FlowerClient(model, train_ds, valid_ds, batch_size, slice_num, n_train, n_valid)
 
     logging.info("Starting Flower NumPy client...")
-    fl.client.start_numpy_client(server_address="[::]:8080", client=client)
+    # Windows 호환: IPv4로 접속
+    fl.client.start_numpy_client(server_address="127.0.0.1:8080", client=client)
 
 if __name__ == "__main__":
     try:

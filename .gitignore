@@ -1,0 +1,22 @@
+# 이미지 데이터 폴더들
+Melanoma-Classifier-Federated-Learning/isicdata/
+Melanoma-Classifier-Federated-Learning/eval_out/
+
+# 모델 파일들 (크기가 큰 파일들)
+*.h5
+*.weights.h5
+*.keras
+
+# 가상환경
+venv311/
+venv/
+
+# 기타 임시 파일들
+$REQ
+pip
+requirements.rest.txt
+requirements.txt.bak
+converted_from_any.*
+
+# 워크스페이스 결과 파일들
+workspace/clientResults/
