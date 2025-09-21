@@ -1,50 +1,201 @@
-image_name,patient_id,sex,age_approx,anatom_site_general_challenge,diagnosis,benign_malignant,target
-ISIC_0052212,IP_2842074,female,50,lower extremity,nevus,benign,0
-ISIC_0068279,IP_6890425,female,45,head/neck,unknown,benign,0
-ISIC_0074268,IP_8723313,female,55,upper extremity,unknown,benign,0
-ISIC_0074311,IP_2950485,female,40,lower extremity,unknown,benign,0
-ISIC_0074542,IP_4698288,male,25,lower extremity,unknown,benign,0
-ISIC_0075663,IP_6017204,female,35,torso,unknown,benign,0
-ISIC_0075914,IP_7622888,male,30,torso,unknown,benign,0
-ISIC_0076262,IP_5075533,female,50,lower extremity,unknown,benign,0
-ISIC_0076545,IP_9802602,male,55,upper extremity,unknown,benign,0
-ISIC_0076742,IP_2318163,male,75,upper extremity,unknown,benign,0
-ISIC_0206758,IP_1969685,male,50,torso,unknown,benign,0
-ISIC_0207209,IP_4488328,male,40,torso,unknown,benign,0
-ISIC_0207268,IP_7735373,male,55,torso,melanoma,malignant,1
-ISIC_0207341,IP_8951606,male,65,torso,unknown,benign,0
-ISIC_0207349,IP_0892152,male,50,torso,unknown,benign,0
-ISIC_0208378,IP_9102359,male,40,upper extremity,unknown,benign,0
-ISIC_0208967,IP_2375279,male,60,lower extremity,nevus,benign,0
-ISIC_0209871,IP_4786590,female,45,upper extremity,nevus,benign,0
-ISIC_0210282,IP_7375528,female,55,torso,unknown,benign,0
-ISIC_0210308,IP_5772279,male,70,torso,unknown,benign,0
-ISIC_0210423,IP_0358262,male,50,torso,nevus,benign,0
-ISIC_0210830,IP_6939959,female,65,torso,unknown,benign,0
-ISIC_0210998,IP_9239044,female,50,torso,nevus,benign,0
-ISIC_0212729,IP_1010643,male,75,torso,unknown,benign,0
-ISIC_0212774,IP_7826053,female,20,torso,unknown,benign,0
-ISIC_0212931,IP_1672936,female,20,lower extremity,unknown,benign,0
-ISIC_0333091,IP_6868151,male,25,lower extremity,melanoma,malignant,1
-ISIC_0333102,IP_3854976,female,45,head/neck,unknown,benign,0
-ISIC_0333215,IP_1559941,male,55,torso,unknown,benign,0
-ISIC_0333246,IP_7779275,female,45,torso,unknown,benign,0
-ISIC_0333589,IP_0877882,female,55,torso,lentigo NOS,benign,0
-ISIC_0333641,IP_2479386,female,40,torso,unknown,benign,0
-ISIC_0337541,IP_7313005,male,30,upper extremity,unknown,benign,0
-ISIC_0337631,IP_2041319,female,55,torso,melanoma,malignant,1
-ISIC_0337921,IP_5389392,male,55,lower extremity,unknown,benign,0
-ISIC_0351547,IP_4382720,female,50,torso,unknown,benign,0
-ISIC_0351666,IP_1665515,male,80,head/neck,melanoma,malignant,1
-ISIC_0352239,IP_6374803,female,80,torso,unknown,benign,0
-ISIC_0383804,IP_7270568,female,65,head/neck,seborrheic keratosis,benign,0
-ISIC_0384107,IP_3067471,male,85,torso,nevus,benign,0
-ISIC_0384200,IP_2661172,female,45,,unknown,benign,0
-ISIC_0384214,IP_3728091,male,50,torso,nevus,benign,0
-ISIC_0420381,IP_6397153,female,65,torso,unknown,benign,0
-ISIC_0420477,IP_3120589,female,55,upper extremity,seborrheic keratosis,benign,0
-ISIC_0420624,IP_8803573,female,55,torso,nevus,benign,0
-ISIC_0433569,IP_8848835,female,50,head/neck,lichenoid keratosis,benign,0
-ISIC_6278273,IP_4617831,male,65,torso,melanoma,malignant,1
-ISIC_6903643,IP_6175417,female,45,upper extremity,unknown,benign,0
-ISIC_6904082,IP_5715797,male,25,torso,melanoma,malignant,1
+image_name,patient_id,sex,age_approx,anatom_site_general_challenge,diagnosis,benign_malignant,target,path
+ISIC_9085719,IP_3562983,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_9085719.jpg
+ISIC_3990124,IP_9909432,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_3990124.jpg
+ISIC_5125438,IP_1139701,female,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_5125438.jpg
+ISIC_3076237,IP_9802994,female,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_3076237.jpg
+ISIC_5209007,IP_1051664,male,35.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_5209007.jpg
+ISIC_9430349,IP_4898383,male,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_9430349.jpg
+ISIC_1511913,IP_0963996,female,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_1511913.jpg
+ISIC_0565046,IP_3397861,female,65.0,torso,nevus,benign,0,./isicdata/train/ISIC_0565046.jpg
+ISIC_8065339,IP_9373614,female,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_8065339.jpg
+ISIC_5036393,IP_4169963,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_5036393.jpg
+ISIC_0218747,IP_3200260,female,30.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_0218747.jpg
+ISIC_5182820,IP_4294140,male,80.0,torso,nevus,benign,0,./isicdata/train/ISIC_5182820.jpg
+ISIC_1052782,IP_5450817,male,50.0,torso,unknown,benign,0,./isicdata/train/ISIC_1052782.jpg
+ISIC_7168604,IP_2153088,female,30.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_7168604.jpg
+ISIC_8276321,IP_8171851,female,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_8276321.jpg
+ISIC_2238376,IP_7334384,male,75.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_2238376.jpg
+ISIC_4562352,IP_9583707,male,20.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_4562352.jpg
+ISIC_3996106,IP_8848835,female,55.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3996106.jpg
+ISIC_7201222,IP_1135236,male,45.0,torso,nevus,benign,0,./isicdata/train/ISIC_7201222.jpg
+ISIC_3775365,IP_9299257,female,40.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3775365.jpg
+ISIC_4757866,IP_4479736,female,25.0,torso,unknown,benign,0,./isicdata/train/ISIC_4757866.jpg
+ISIC_0781588,IP_6297463,male,40.0,torso,nevus,benign,0,./isicdata/train/ISIC_0781588.jpg
+ISIC_5994171,IP_7198796,female,25.0,torso,unknown,benign,0,./isicdata/train/ISIC_5994171.jpg
+ISIC_3692925,IP_3653630,female,55.0,torso,nevus,benign,0,./isicdata/train/ISIC_3692925.jpg
+ISIC_9221435,IP_7466144,female,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_9221435.jpg
+ISIC_5142472,IP_7765741,male,55.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_5142472.jpg
+ISIC_8044983,IP_1264754,female,65.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_8044983.jpg
+ISIC_3871414,IP_7562457,male,70.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_3871414.jpg
+ISIC_2601943,IP_2809878,female,50.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_2601943.jpg
+ISIC_1655590,IP_2107993,female,70.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_1655590.jpg
+ISIC_5597282,IP_2809878,female,50.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_5597282.jpg
+ISIC_0800069,IP_6116226,male,70.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_0800069.jpg
+ISIC_4091066,IP_5604493,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_4091066.jpg
+ISIC_0492862,IP_5111235,male,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_0492862.jpg
+ISIC_8820586,IP_5945814,female,35.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_8820586.jpg
+ISIC_4744842,IP_2853271,male,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_4744842.jpg
+ISIC_3605210,IP_5424227,female,55.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3605210.jpg
+ISIC_4284380,IP_1197949,male,45.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_4284380.jpg
+ISIC_3166276,IP_0041255,female,25.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3166276.jpg
+ISIC_6029902,IP_3927229,female,40.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_6029902.jpg
+ISIC_5219742,IP_2321962,female,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_5219742.jpg
+ISIC_1138872,IP_9558959,male,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_1138872.jpg
+ISIC_7770394,IP_0989858,female,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_7770394.jpg
+ISIC_7851399,IP_1207677,male,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_7851399.jpg
+ISIC_5770437,IP_3489420,male,55.0,torso,nevus,benign,0,./isicdata/train/ISIC_5770437.jpg
+ISIC_3183946,IP_1676499,female,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_3183946.jpg
+ISIC_4201406,IP_2943840,female,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_4201406.jpg
+ISIC_4635151,IP_9995095,male,55.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_4635151.jpg
+ISIC_6954577,IP_5889408,female,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_6954577.jpg
+ISIC_8347607,IP_5064631,male,20.0,torso,unknown,benign,0,./isicdata/train/ISIC_8347607.jpg
+ISIC_6836359,IP_9544996,female,35.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_6836359.jpg
+ISIC_8047316,IP_7702038,male,45.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_8047316.jpg
+ISIC_1338069,IP_5596716,male,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_1338069.jpg
+ISIC_4176259,IP_1419269,male,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_4176259.jpg
+ISIC_7555858,IP_6017019,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_7555858.jpg
+ISIC_5508228,IP_5384571,male,65.0,torso,unknown,benign,0,./isicdata/train/ISIC_5508228.jpg
+ISIC_4904912,IP_3858753,male,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_4904912.jpg
+ISIC_3804858,IP_4369500,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_3804858.jpg
+ISIC_6527570,IP_1481008,male,25.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_6527570.jpg
+ISIC_4575432,IP_6945048,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_4575432.jpg
+ISIC_4583929,IP_3391715,female,50.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_4583929.jpg
+ISIC_4076162,IP_3549978,female,40.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_4076162.jpg
+ISIC_3223682,IP_4711011,male,20.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3223682.jpg
+ISIC_0361034,IP_8136122,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_0361034.jpg
+ISIC_6067133,IP_4898383,male,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_6067133.jpg
+ISIC_2355832,IP_1226635,male,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_2355832.jpg
+ISIC_5565349,IP_6397153,female,75.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_5565349.jpg
+ISIC_3301163,IP_7481506,female,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_3301163.jpg
+ISIC_1661837,IP_6374803,female,80.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_1661837.jpg
+ISIC_1463406,IP_6219396,female,65.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_1463406.jpg
+ISIC_4577414,IP_4749521,male,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_4577414.jpg
+ISIC_1264993,IP_5533537,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_1264993.jpg
+ISIC_1919499,IP_2618037,female,25.0,torso,unknown,benign,0,./isicdata/train/ISIC_1919499.jpg
+ISIC_5190837,IP_0428413,female,50.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_5190837.jpg
+ISIC_5646706,IP_6129542,female,25.0,torso,unknown,benign,0,./isicdata/train/ISIC_5646706.jpg
+ISIC_6639111,IP_0306499,male,70.0,torso,unknown,benign,0,./isicdata/train/ISIC_6639111.jpg
+ISIC_4793117,IP_4879325,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_4793117.jpg
+ISIC_6297277,IP_2825529,female,50.0,upper extremity,nevus,benign,0,./isicdata/train/ISIC_6297277.jpg
+ISIC_9355890,IP_0046310,male,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_9355890.jpg
+ISIC_2730629,IP_9496389,male,40.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_2730629.jpg
+ISIC_8984777,IP_9353814,male,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_8984777.jpg
+ISIC_6288718,IP_8091497,male,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_6288718.jpg
+ISIC_1584861,IP_6531672,female,70.0,torso,nevus,benign,0,./isicdata/train/ISIC_1584861.jpg
+ISIC_9091562,IP_0175414,male,60.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_9091562.jpg
+ISIC_7109227,IP_2047697,female,35.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_7109227.jpg
+ISIC_8531942,IP_8402958,male,30.0,torso,nevus,benign,0,./isicdata/train/ISIC_8531942.jpg
+ISIC_1628853,IP_8267064,female,30.0,torso,unknown,benign,0,./isicdata/train/ISIC_1628853.jpg
+ISIC_6780471,IP_8233849,male,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_6780471.jpg
+ISIC_5280906,IP_2107993,female,70.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_5280906.jpg
+ISIC_2072302,IP_0719925,male,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_2072302.jpg
+ISIC_8331313,IP_8974438,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_8331313.jpg
+ISIC_7600232,IP_7291657,female,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_7600232.jpg
+ISIC_1904980,IP_1658035,male,40.0,torso,nevus,benign,0,./isicdata/train/ISIC_1904980.jpg
+ISIC_4524422,IP_9181133,male,65.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_4524422.jpg
+ISIC_8183419,IP_2026598,male,20.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_8183419.jpg
+ISIC_5925471,IP_3449666,female,55.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_5925471.jpg
+ISIC_8996798,IP_8011614,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_8996798.jpg
+ISIC_0177304,IP_3658607,male,45.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_0177304.jpg
+ISIC_5275267,IP_8598620,female,70.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_5275267.jpg
+ISIC_6432495,IP_4356379,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_6432495.jpg
+ISIC_7383521,IP_3970734,male,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_7383521.jpg
+ISIC_2080947,IP_8766487,female,35.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_2080947.jpg
+ISIC_0483289,IP_0148558,female,50.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_0483289.jpg
+ISIC_1469636,IP_0500903,female,25.0,torso,unknown,benign,0,./isicdata/train/ISIC_1469636.jpg
+ISIC_2553644,IP_9616120,female,75.0,torso,nevus,benign,0,./isicdata/train/ISIC_2553644.jpg
+ISIC_0509700,IP_1418292,female,40.0,torso,nevus,benign,0,./isicdata/train/ISIC_0509700.jpg
+ISIC_3008539,IP_6512345,male,70.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3008539.jpg
+ISIC_3582969,IP_4645992,male,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_3582969.jpg
+ISIC_7768915,IP_1602525,female,25.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_7768915.jpg
+ISIC_1018102,IP_3723085,female,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_1018102.jpg
+ISIC_4718313,IP_6599517,female,20.0,torso,unknown,benign,0,./isicdata/train/ISIC_4718313.jpg
+ISIC_5893001,IP_9346829,female,60.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_5893001.jpg
+ISIC_9051287,IP_2352610,male,70.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_9051287.jpg
+ISIC_4462821,IP_8683055,male,75.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_4462821.jpg
+ISIC_2896341,IP_4488328,male,40.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_2896341.jpg
+ISIC_8882801,IP_2153088,female,30.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_8882801.jpg
+ISIC_7574405,IP_0063457,male,45.0,torso,nevus,benign,0,./isicdata/train/ISIC_7574405.jpg
+ISIC_2702938,IP_8494731,female,35.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_2702938.jpg
+ISIC_3358565,IP_4129058,female,45.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_3358565.jpg
+ISIC_3669751,IP_1514334,male,55.0,torso,nevus,benign,0,./isicdata/train/ISIC_3669751.jpg
+ISIC_1711408,IP_7452391,male,60.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_1711408.jpg
+ISIC_6533176,IP_8247808,female,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_6533176.jpg
+ISIC_2019386,IP_6242332,male,60.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_2019386.jpg
+ISIC_3552245,IP_5596716,male,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_3552245.jpg
+ISIC_2298329,IP_0418246,female,50.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_2298329.jpg
+ISIC_8622204,IP_2325148,male,65.0,torso,unknown,benign,0,./isicdata/train/ISIC_8622204.jpg
+ISIC_5043429,IP_8673016,female,60.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_5043429.jpg
+ISIC_8265105,IP_4391034,female,70.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_8265105.jpg
+ISIC_0522926,IP_1307115,male,50.0,torso,unknown,benign,0,./isicdata/train/ISIC_0522926.jpg
+ISIC_8025011,IP_3561719,male,70.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_8025011.jpg
+ISIC_6576368,IP_2107993,female,70.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_6576368.jpg
+ISIC_6552115,IP_0135517,female,50.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_6552115.jpg
+ISIC_6469737,IP_9277763,female,55.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_6469737.jpg
+ISIC_1719236,IP_1976214,female,35.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_1719236.jpg
+ISIC_0418738,IP_5543080,male,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_0418738.jpg
+ISIC_3481318,IP_6850143,female,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_3481318.jpg
+ISIC_2968272,IP_3549978,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_2968272.jpg
+ISIC_4548990,IP_6267856,female,60.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_4548990.jpg
+ISIC_1262966,IP_9183198,female,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_1262966.jpg
+ISIC_7450481,IP_3055814,male,50.0,torso,unknown,benign,0,./isicdata/train/ISIC_7450481.jpg
+ISIC_5301811,IP_9853347,male,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_5301811.jpg
+ISIC_0705313,IP_1582457,male,50.0,torso,unknown,benign,0,./isicdata/train/ISIC_0705313.jpg
+ISIC_4325155,IP_4252478,male,50.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_4325155.jpg
+ISIC_9743573,IP_7792107,male,60.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_9743573.jpg
+ISIC_7456891,IP_8534235,female,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_7456891.jpg
+ISIC_9510497,IP_5638009,male,55.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_9510497.jpg
+ISIC_7808204,IP_4565105,female,55.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_7808204.jpg
+ISIC_5084682,IP_9583707,male,20.0,torso,unknown,benign,0,./isicdata/train/ISIC_5084682.jpg
+ISIC_9034411,IP_7517320,male,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_9034411.jpg
+ISIC_7446443,IP_3423256,female,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_7446443.jpg
+ISIC_6777153,IP_8007888,male,40.0,torso,nevus,benign,0,./isicdata/train/ISIC_6777153.jpg
+ISIC_1416995,IP_7716159,male,80.0,torso,nevus,benign,0,./isicdata/train/ISIC_1416995.jpg
+ISIC_5354607,IP_0663261,female,70.0,torso,unknown,benign,0,./isicdata/train/ISIC_5354607.jpg
+ISIC_6932951,IP_7590110,female,45.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_6932951.jpg
+ISIC_8507519,IP_1587853,female,70.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_8507519.jpg
+ISIC_0527166,IP_5772279,male,70.0,torso,unknown,benign,0,./isicdata/train/ISIC_0527166.jpg
+ISIC_3452266,IP_9422872,female,60.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_3452266.jpg
+ISIC_5395714,IP_5698400,female,25.0,torso,nevus,benign,0,./isicdata/train/ISIC_5395714.jpg
+ISIC_5529924,IP_5474292,male,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_5529924.jpg
+ISIC_7043443,IP_5901901,male,45.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_7043443.jpg
+ISIC_3877727,IP_7330399,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_3877727.jpg
+ISIC_0862337,IP_3397861,female,65.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_0862337.jpg
+ISIC_0595080,IP_9672959,male,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_0595080.jpg
+ISIC_8866758,IP_7132551,male,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_8866758.jpg
+ISIC_8018856,IP_2760044,male,40.0,torso,nevus,benign,0,./isicdata/train/ISIC_8018856.jpg
+ISIC_2208668,IP_6724798,male,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_2208668.jpg
+ISIC_3171941,IP_6887203,male,30.0,palms/soles,unknown,benign,0,./isicdata/train/ISIC_3171941.jpg
+ISIC_3768804,IP_1512936,female,45.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3768804.jpg
+ISIC_3451676,IP_9901629,female,65.0,torso,unknown,benign,0,./isicdata/train/ISIC_3451676.jpg
+ISIC_1919829,IP_2068150,male,85.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_1919829.jpg
+ISIC_5513509,IP_2950485,female,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_5513509.jpg
+ISIC_1711706,IP_5064161,male,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_1711706.jpg
+ISIC_4084523,IP_7330399,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_4084523.jpg
+ISIC_5645368,IP_2596575,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_5645368.jpg
+ISIC_1237232,IP_7890415,male,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_1237232.jpg
+ISIC_2404995,IP_7198796,female,25.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_2404995.jpg
+ISIC_0965652,IP_6631780,female,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_0965652.jpg
+ISIC_1704026,IP_8094083,male,45.0,torso,nevus,benign,0,./isicdata/train/ISIC_1704026.jpg
+ISIC_3110425,IP_4880648,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_3110425.jpg
+ISIC_6186813,IP_1611625,male,40.0,lower extremity,nevus,benign,0,./isicdata/train/ISIC_6186813.jpg
+ISIC_7617445,IP_2980320,male,40.0,torso,unknown,benign,0,./isicdata/train/ISIC_7617445.jpg
+ISIC_3255000,IP_3523452,female,20.0,,unknown,benign,0,./isicdata/train/ISIC_3255000.jpg
+ISIC_8356904,IP_9721483,female,60.0,torso,unknown,benign,0,./isicdata/train/ISIC_8356904.jpg
+ISIC_8679617,IP_0962375,female,55.0,torso,unknown,benign,0,./isicdata/train/ISIC_8679617.jpg
+ISIC_2920639,IP_9712836,female,45.0,torso,unknown,benign,0,./isicdata/train/ISIC_2920639.jpg
+ISIC_8971775,IP_7318404,male,50.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_8971775.jpg
+ISIC_3001380,IP_7804786,male,50.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_3001380.jpg
+ISIC_7975111,IP_9899071,female,35.0,torso,unknown,benign,0,./isicdata/train/ISIC_7975111.jpg
+ISIC_4595555,IP_0036322,male,65.0,torso,nevus,benign,0,./isicdata/train/ISIC_4595555.jpg
+ISIC_3358896,IP_4356379,female,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_3358896.jpg
+ISIC_0355197,IP_2976930,female,35.0,torso,nevus,benign,0,./isicdata/train/ISIC_0355197.jpg
+ISIC_2120547,IP_4349196,female,40.0,head/neck,unknown,benign,0,./isicdata/train/ISIC_2120547.jpg
+ISIC_1223648,IP_4387709,male,40.0,upper extremity,unknown,benign,0,./isicdata/train/ISIC_1223648.jpg
+ISIC_8286893,IP_4479736,female,25.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_8286893.jpg
+ISIC_5412095,IP_8131348,female,50.0,torso,nevus,benign,0,./isicdata/train/ISIC_5412095.jpg
+ISIC_0803691,IP_6242332,male,60.0,lower extremity,unknown,benign,0,./isicdata/train/ISIC_0803691.jpg
+ISIC_6767569,IP_7665112,male,70.0,head/neck,melanoma,malignant,1,./isicdata/train/ISIC_6767569.jpg
+ISIC_7312977,IP_8675890,male,55.0,lower extremity,melanoma,malignant,1,./isicdata/train/ISIC_7312977.jpg
+ISIC_1785627,IP_0170821,female,40.0,upper extremity,melanoma,malignant,1,./isicdata/train/ISIC_1785627.jpg
+ISIC_3996796,IP_2412574,male,70.0,torso,melanoma,malignant,1,./isicdata/train/ISIC_3996796.jpg

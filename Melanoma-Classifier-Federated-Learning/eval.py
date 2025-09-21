@@ -112,10 +112,10 @@ def make_valid(csv_path="./isicdata/datasets/doctor_case2.csv", batch_size=8):
     logging.info(f"n_valid={len(df)} (csv={csv_path})")
     return ds, df
 
-# 연합 전(베이스) 가중치: 파일이 가리키는 헤드는 GAP→Dense(1)인 경우가 흔했음
+# 연합 전(베이스) 가중치: 노트북과 동일한 구조 사용
 def build_base_min_head():
     m = tf.keras.Sequential([
-        efn.EfficientNetB2(input_shape=(224,224,3), weights=None, include_top=False),  # 224로 축소!
+        efn.EfficientNetB2(input_shape=(384,384,3), weights=None, include_top=False),  # 384로 통일
         L.GlobalAveragePooling2D(name="global_average_pooling2d"),
         L.Dense(1, activation="sigmoid", name="dense"),
     ])
@@ -123,10 +123,10 @@ def build_base_min_head():
               metrics=["binary_crossentropy","accuracy"], run_eagerly=True)
     return m
 
-# 연합 후(서버/클라) 헤드
+# 연합 후(서버/클라) 헤드: 노트북과 동일한 구조 사용
 def build_fed_head():
     m = tf.keras.Sequential([
-        efn.EfficientNetB2(input_shape=(224,224,3), weights=None, include_top=False),  # 224로 축소!
+        efn.EfficientNetB2(input_shape=(384,384,3), weights=None, include_top=False),  # 384로 통일
         L.GlobalAveragePooling2D(name='global_average_pooling2d'),
         L.Dense(1024, activation='relu', name='dense'),
         L.Dropout(0.3, name='dropout'),
@@ -148,7 +148,7 @@ def eval_model(model, ds):
     return {"loss": float(loss), "bce": float(bce), "acc": float(acc)}
 
 def try_eval_baseline(ds, baseline_weights):
-    # 1) 파일 지정 시도 (GAP→Dense(1) 헤드 가정)
+    # 1) 파일 지정 시도 (노트북에서 생성한 가중치 사용)
     if baseline_weights and os.path.exists(baseline_weights):
         try:
             m = build_base_min_head()
@@ -158,13 +158,13 @@ def try_eval_baseline(ds, baseline_weights):
         except Exception as e:
             logging.warning(f"[BASE] 가중치 로드 실패: {e}")
 
-    # 2) 베이스 성능 json에서 정량만 읽기 (test_accuracy 우선, 없으면 train_accuracy)
+    # 2) 베이스 성능 json에서 정량만 읽기 (train_accuracy 사용)
     perf_files = sorted(glob.glob("./base_model_performance_*.json"), key=os.path.getmtime, reverse=True)
     if perf_files:
         try:
             with open(perf_files[0], "r", encoding="utf-8") as f:
                 perf = json.load(f)
-            acc = perf.get("base_model", {}).get("test_accuracy") or perf.get("base_model", {}).get("train_accuracy")
+            acc = perf.get("base_model", {}).get("train_accuracy")
             if acc is not None:
                 logging.info(f"[BASE] json 사용: {perf_files[0]} acc={acc:.4f}")
                 return {"loss": None, "bce": None, "acc": float(acc), "source": "json", "path": perf_files[0]}
@@ -176,11 +176,32 @@ def try_eval_baseline(ds, baseline_weights):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--csv", default="./isicdata/datasets/doctor_case2.csv")
+    ap.add_argument("--csv", default="validation_dataset.csv")  # 기본값을 validation_dataset.csv로 변경
     ap.add_argument("--batch", type=int, default=8)
-    ap.add_argument("--baseline_weights", default=r"C:\Users\USER\Desktop\koren\koren_NeulMed\Melanoma-Classifier-Federated-Learning\melamodel\melamodel_weights072.weights.h5")
-    ap.add_argument("--fed_weights", default=r"C:\Users\USER\Desktop\koren\koren_NeulMed\Melanoma-Classifier-Federated-Learning\workspace\clientResults\round-10-weights-2025_09_20-21_58_41.weights.h5")
+    ap.add_argument("--baseline_weights", default="./melamodel/melamodel_weights072.weights.h5")
+    ap.add_argument("--fed_weights", default=None)  # 자동 탐지로 변경
     args = ap.parse_args()
+
+    # CSV 파일 존재 확인 및 디버깅 (이모지 제거)
+    print(f"[DEBUG] args.csv = {args.csv}")
+    print(f"[DEBUG] 현재 작업 디렉토리 = {os.getcwd()}")
+    print(f"[DEBUG] validation_dataset.csv 존재? {os.path.exists('validation_dataset.csv')}")
+    
+    # validation_dataset.csv가 있으면 강제로 사용
+    if os.path.exists('validation_dataset.csv'):
+        args.csv = 'validation_dataset.csv'
+        print(f"[INFO] validation_dataset.csv를 강제로 사용합니다: {args.csv}")
+    elif not os.path.exists(args.csv):
+        print(f"[ERROR] CSV 파일을 찾을 수 없습니다: {args.csv}")
+        print("먼저 노트북에서 validation_dataset.csv를 생성하세요.")
+        return
+
+    print(f"[INFO] 사용할 CSV 파일: {args.csv}")
+    
+    # CSV 파일 내용 확인
+    import pandas as pd
+    df_check = pd.read_csv(args.csv)
+    print(f"[DEBUG] CSV 파일 크기 = {len(df_check)}개 행")
 
     # 데이터
     valid_ds, valid_df = make_valid(args.csv, batch_size=args.batch)
@@ -188,28 +209,46 @@ def main():
     # 베이스라인 평가(가중치 or json)
     base = try_eval_baseline(valid_ds, args.baseline_weights)
 
-    # 연합 후 평가
+    # 연합 후 평가 (자동으로 최신 가중치 파일 찾기)
     fed_w = args.fed_weights
-    if not os.path.exists(fed_w):
+    if not fed_w or not os.path.exists(fed_w):
         files = glob.glob("./workspace/clientResults/round-*-weights-*.weights.h5")
-        fed_w = max(files, key=os.path.getmtime) if files else None
-    if not fed_w:
-        raise FileNotFoundError("연합 가중치 파일을 찾지 못했습니다.")
+        if files:
+            fed_w = max(files, key=os.path.getmtime)
+            print(f"[INFO] 자동 탐지된 연합 가중치: {fed_w}")
+        else:
+            print("[ERROR] 연합 가중치 파일을 찾을 수 없습니다.")
+            print("연합학습을 먼저 실행하세요.")
+            return
 
-    fed_model = build_fed_head()
-    fed_model.load_weights(fed_w)
-    fed = eval_model(fed_model, valid_ds) | {"path": fed_w}
+    try:
+        fed_model = build_fed_head()
+        fed_model.load_weights(fed_w)
+        fed = eval_model(fed_model, valid_ds) | {"path": fed_w}
+    except Exception as e:
+        print(f"[ERROR] 연합 모델 평가 실패: {e}")
+        return
 
-    # 요약 출력
+    # 요약 출력 (이모지 제거)
     def pct(x): return f"{x*100:.2f}%"
-    print("\n=== 전/후 성능 비교(동일 검증셋) ===")
+    print("\n=== 공정한 연합학습 성능 비교 ===")
+    print(f"검증 데이터셋: {args.csv}")
+    print(f"검증 샘플 수: {len(valid_df)}개")
+    print()
     if base["acc"] is not None:
-        print(f"- 연합 전 정확도: {pct(base['acc'])}  (source={base['source']})")
+        print(f"연합학습 전 정확도: {pct(base['acc'])}  (source={base['source']})")
     else:
-        print(f"- 연합 전 정확도: N/A")
-    print(f"- 연합 후 정확도: {pct(fed['acc'])}")
+        print(f"연합학습 전 정확도: N/A")
+    print(f"연합학습 후 정확도: {pct(fed['acc'])}")
     if base["acc"] is not None:
-        print(f"- 차이(후-전):     {pct(fed['acc'] - base['acc'])}")
+        improvement = fed['acc'] - base['acc']
+        print(f"성능 향상: {pct(improvement)}")
+        
+        # 통계적 유의성 간단 체크
+        if abs(improvement) > 0.05:  # 5% 이상 차이
+            print(f"[INFO] 성능 차이가 유의미합니다 ({pct(abs(improvement))})")
+        else:
+            print(f"[WARNING] 성능 차이가 미미합니다 ({pct(abs(improvement))})")
 
     # 저장
     out = {
@@ -221,7 +260,7 @@ def main():
     os.makedirs("./eval_out", exist_ok=True)
     with open("./eval_out/compare.json", "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, ensure_ascii=False)
-    print("\nSaved: ./eval_out/compare.json")
+    print(f"\n결과 저장: ./eval_out/compare.json")
 
 if __name__ == "__main__":
     main()
